@@ -30,22 +30,6 @@ Phoneme and Word Time Calculation:
 - **Save Audio:**
   - Save the recorded audio in WAV format.
 
-## Installation 🛠️
-
-1. Clone the repository:   
-   git clone https://github.com/your-username/audio-recorder-analyzer.git
-   cd audio-recorder-analyzer   
-
-2. Install the required dependencies:   
-   pip install -r requirements.txt   
-
-3. Install `ffmpeg` for audio processing:
-   - On Ubuntu/Debian:     
-     sudo apt install ffmpeg   
-   - On macOS (via Homebrew):     
-     brew install ffmpeg   
-   - On Windows, download [ffmpeg](https://ffmpeg.org/download.html) and add it to your system's PATH.
-
 4. Run the application:   
    python app.py   
 
