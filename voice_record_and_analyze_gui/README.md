@@ -15,12 +15,9 @@
 ## Dependencies 📦
 
 The following Python libraries and tools are required:
-- [`sounddevice`](https://python-sounddevice.readthedocs.io/) - For audio recording and playback.
-- [`numpy`](https://numpy.org/) - For numerical computations.
-- [`matplotlib`](https://matplotlib.org/) - For waveform and spectrogram visualization.
-- [`whisper`](https://github.com/openai/whisper) - For transcription using OpenAI's model.
-- [`Pillow`](https://python-pillow.org/) - For image processing in the GUI.
-- [`tkinter`](https://docs.python.org/3/library/tkinter.html) - For building the graphical user interface.
-
-## Known Issues 🐛
-- **Performance**: The Whisper model may take longer to transcribe large audio files, especially on CPUs.
+- [`sounddevice`](https://python-sounddevice.readthedocs.io/) 
+- [`numpy`](https://numpy.org/) 
+- [`matplotlib`](https://matplotlib.org/) 
+- [`whisper`](https://github.com/openai/whisper) 
+- [`Pillow`](https://python-pillow.org/) 
+- [`tkinter`](https://docs.python.org/3/library/tkinter.html) 
