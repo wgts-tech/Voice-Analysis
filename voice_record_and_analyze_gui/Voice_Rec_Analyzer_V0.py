@@ -82,7 +82,7 @@ class AudioRecorderApp:
         self.ax.set_title("Waveform")
         self.ax.set_xlabel("Time [s]")
         self.ax.set_ylabel("Amplitude")
-        self.ax.legend(loc="upper right")  # ثابت کردن مکان لگند
+        self.ax.legend(loc="upper right")  
         self.canvas.draw()
         self.add_navigation_controls()
 
@@ -95,7 +95,7 @@ class AudioRecorderApp:
             noverlap=1536,
             cmap="viridis"
         )
-        Pxx = np.maximum(Pxx, 1e-10)  # جلوگیری از تقسیم بر صفر
+        Pxx = np.maximum(Pxx, 1e-10)  
         self.ax.set_title("Spectrogram")
         self.ax.set_xlabel("Time [s]")
         self.ax.set_ylabel("Frequency [Hz]")
@@ -136,14 +136,14 @@ class AudioRecorderApp:
 
     def move_left(self):
         start, end = self.ax.get_xlim()
-        shift = (end - start) / 4  # مقدار جابه‌جایی
+        shift = (end - start) / 4  
         self.ax.set_xlim(start - shift, end - shift)
         self.current_xlim = self.ax.get_xlim()
         self.canvas.draw()
 
     def move_right(self):
         start, end = self.ax.get_xlim()
-        shift = (end - start) / 4  # مقدار جابه‌جایی
+        shift = (end - start) / 4  
         self.ax.set_xlim(start + shift, end + shift)
         self.current_xlim = self.ax.get_xlim()
         self.canvas.draw()
