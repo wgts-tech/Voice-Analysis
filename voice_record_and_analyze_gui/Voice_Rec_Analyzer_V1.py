@@ -152,8 +152,8 @@ class AudioRecorderApp:
                 self.audio_data = indata[:, 0]
             else:
                 self.audio_data = np.concatenate((self.audio_data, indata[:, 0]))
-            volume = np.linalg.norm(indata)  # محاسبه شدت صوت
-            self.progress_bar["value"] = min(volume * 100, 100)  # تنظیم مقدار نوار پیشرفت
+            volume = np.linalg.norm(indata)  
+            self.progress_bar["value"] = min(volume * 100, 100)  
 
     def update_timer(self):
         if self.recording and not self.paused:
@@ -165,7 +165,7 @@ class AudioRecorderApp:
 
     def update_progress_bar(self):
         if self.recording:
-            self.root.after(100, self.update_progress_bar)  # به‌روزرسانی مداوم نوار پیشرفت
+            self.root.after(100, self.update_progress_bar)  
 
 
 if __name__ == "__main__":
