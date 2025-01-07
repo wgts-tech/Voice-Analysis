@@ -82,7 +82,7 @@ class AudioRecorderApp:
         self.root.destroy()  # Destroy all Tkinter widgets
 
     def start_recording(self):
-        # پاکسازی و بازسازی پنل نمودارها قبل از شروع ضبط جدید
+       
         self.reset_waveform_panel()
         self.reset_spectrogram_panel()
 
@@ -99,12 +99,11 @@ class AudioRecorderApp:
         self.stream = sd.InputStream(callback=self.audio_callback, channels=1, samplerate=self.fs)
         self.stream.start()
 
-    def reset_waveform_panel(self):
-        """بازسازی کامل پنل ویو فرم."""
+    def reset_waveform_panel(self):        
         for widget in self.waveform_panel.winfo_children():
-            widget.destroy()  # حذف کامل ویجت‌های موجود
+            widget.destroy()  
 
-        self.waveform_fig, self.waveform_ax = plt.subplots(figsize=(5, 2))  # ایجاد شکل جدید با ارتفاع کمتر
+        self.waveform_fig, self.waveform_ax = plt.subplots(figsize=(5, 2))  
         self.waveform_canvas_agg = FigureCanvasTkAgg(self.waveform_fig, master=self.waveform_panel)
         self.waveform_canvas_agg.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
@@ -113,12 +112,11 @@ class AudioRecorderApp:
         toolbar.update()
         toolbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-    def reset_spectrogram_panel(self):
-        """بازسازی کامل پنل اسپکتروم."""
+    def reset_spectrogram_panel(self):        
         for widget in self.spectrogram_panel.winfo_children():
-            widget.destroy()  # حذف کامل ویجت‌های موجود
+            widget.destroy()  
 
-        self.spectrogram_fig, self.spectrogram_ax = plt.subplots(figsize=(5, 2))  # ایجاد شکل جدید با ارتفاع کمتر
+        self.spectrogram_fig, self.spectrogram_ax = plt.subplots(figsize=(5, 2))  
         self.spectrogram_canvas_agg = FigureCanvasTkAgg(self.spectrogram_fig, master=self.spectrogram_panel)
         self.spectrogram_canvas_agg.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
@@ -149,7 +147,7 @@ class AudioRecorderApp:
             self.stop_button.config(state=tk.DISABLED)
             self.save_audio_button.config(state=tk.NORMAL)
 
-            # رسم خودکار نمودارها پس از توقف ضبط
+           
             self.show_waveform()
             self.show_spectrogram()
 
