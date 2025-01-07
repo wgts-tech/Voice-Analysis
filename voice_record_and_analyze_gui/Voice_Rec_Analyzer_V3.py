@@ -106,8 +106,7 @@ class AudioRecorderApp:
         self.reset_waveform_panel()
         self.reset_spectrogram_panel()
 
-    def reset_waveform_panel(self):
-        """بازسازی کامل پنل ویوفُرم."""
+    def reset_waveform_panel(self):        
         for widget in self.waveform_panel.winfo_children():
             widget.destroy()
 
@@ -119,8 +118,7 @@ class AudioRecorderApp:
         toolbar.update()
         toolbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-    def reset_spectrogram_panel(self):
-        """بازسازی کامل پنل اسپکتروم."""
+    def reset_spectrogram_panel(self):       
         for widget in self.spectrogram_panel.winfo_children():
             widget.destroy()
 
@@ -132,8 +130,7 @@ class AudioRecorderApp:
         toolbar.update()
         toolbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-    def show_waveform(self):
-        """نمایش شکل موج صدا."""
+    def show_waveform(self):        
         self.waveform_ax.clear()
         time = np.linspace(0, len(self.audio_data) / self.fs, len(self.audio_data))
         self.waveform_ax.plot(time, self.audio_data, label="Waveform")
@@ -143,8 +140,7 @@ class AudioRecorderApp:
         self.waveform_ax.legend(loc="upper right")
         self.waveform_canvas_agg.draw()
 
-    def show_spectrogram(self):
-        """نمایش اسپکتروم صدا."""
+    def show_spectrogram(self):        
         self.spectrogram_ax.clear()
         Pxx, freqs, bins, im = self.spectrogram_ax.specgram(
             self.audio_data, Fs=self.fs, NFFT=2048, noverlap=1024, cmap='viridis'
@@ -155,8 +151,7 @@ class AudioRecorderApp:
         self.spectrogram_fig.colorbar(im, ax=self.spectrogram_ax).set_label("Intensity [dB]")
         self.spectrogram_canvas_agg.draw()
 
-    def on_word_select(self, event):
-        """انتخاب کلمه از لیست."""
+    def on_word_select(self, event):        
         selection = self.word_listbox.curselection()
         if selection:
             index = selection[0]
@@ -167,8 +162,7 @@ class AudioRecorderApp:
             self.highlight_spectrogram(start, end)
             self.play_segment(start, end)
 
-    def highlight_waveform(self, start, end):
-        """نمایش بازه انتخابی در ویوفُرم."""
+    def highlight_waveform(self, start, end):        
         self.waveform_ax.clear()
         time = np.linspace(0, len(self.audio_data) / self.fs, len(self.audio_data))
         self.waveform_ax.plot(time, self.audio_data, label="Waveform")
@@ -176,8 +170,7 @@ class AudioRecorderApp:
         self.waveform_ax.legend()
         self.waveform_canvas_agg.draw()
 
-    def highlight_spectrogram(self, start, end):
-        """نمایش بازه انتخابی در اسپکتروم."""
+    def highlight_spectrogram(self, start, end):        
         self.spectrogram_ax.clear()
         Pxx, freqs, bins, im = self.spectrogram_ax.specgram(
             self.audio_data, Fs=self.fs, NFFT=2048, noverlap=1024, cmap='viridis'
@@ -186,15 +179,13 @@ class AudioRecorderApp:
         self.spectrogram_ax.legend()
         self.spectrogram_canvas_agg.draw()
 
-    def play_segment(self, start, end):
-        """پخش بازه انتخابی."""
+    def play_segment(self, start, end):        
         start_idx = int(start * self.fs)
         end_idx = int(end * self.fs)
         segment = self.audio_data[start_idx:end_idx]
         sd.play(segment, self.fs)
 
-    def save_audio(self):
-        """ذخیره فایل صوتی."""
+    def save_audio(self):        
         file_path = filedialog.asksaveasfilename(defaultextension=".wav", filetypes=[("WAV files", "*.wav")])
         if file_path:
             with wave.open(file_path, 'wb') as wf:
@@ -203,35 +194,29 @@ class AudioRecorderApp:
                 wf.setframerate(self.fs)
                 wf.writeframes((self.audio_data * 32767).astype(np.int16).tobytes())
 
-    def generate_transcript(self):
-        """تبدیل صوت به متن و نمایش در بخش ترنسکریپت."""
-        try:
-            # ذخیره فایل صوتی موقت
+    def generate_transcript(self):        
+        try:            
             temp_file = "temp_audio.wav"
             with wave.open(temp_file, 'wb') as wf:
                 wf.setnchannels(1)
                 wf.setsampwidth(2)
                 wf.setframerate(self.fs)
                 wf.writeframes((self.audio_data * 32767).astype(np.int16).tobytes())
-
-            # استفاده از Whisper
+            
             model = whisper.load_model("medium")
             result = model.transcribe(temp_file, word_timestamps=True)
-
-            # نمایش متن
+            
             transcript = result["text"]
             self.transcript_text.delete(1.0, tk.END)
             self.transcript_text.insert(tk.END, transcript)
-
-            # اضافه کردن کلمات به لیست
+            
             self.word_listbox.delete(0, tk.END)
             self.word_timestamps = []
             for segment in result["segments"]:
                 for word in segment["words"]:
                     self.word_timestamps.append(word)
                     self.word_listbox.insert(tk.END, word["word"])
-
-            # نمایش تعداد کلمات
+            
             self.word_count_label.config(text=f"Word Count: {len(self.word_timestamps)}")
 
         except Exception as e:
@@ -239,8 +224,7 @@ class AudioRecorderApp:
             self.transcript_text.insert(tk.END, f"Error: {e}")
             self.word_count_label.config(text="Word Count: 0")
 
-    def start_recording(self):
-        """شروع ضبط صوت."""
+    def start_recording(self):        
         self.reset_waveform_panel()
         self.reset_spectrogram_panel()
         self.recording = True
@@ -256,8 +240,7 @@ class AudioRecorderApp:
         self.stream = sd.InputStream(callback=self.audio_callback, channels=1, samplerate=self.fs)
         self.stream.start()
 
-    def stop_recording(self):
-        """توقف ضبط صوت."""
+    def stop_recording(self):        
         if self.recording:
             self.recording = False
             self.stream.stop()
@@ -267,24 +250,21 @@ class AudioRecorderApp:
             self.pause_button.config(state=tk.DISABLED, text="Pause")
             self.stop_button.config(state=tk.DISABLED)
             self.save_audio_button.config(state=tk.NORMAL)
-
-            # رسم نمودارها و تولید ترنسکریپت
+            
             self.show_waveform()
             self.show_spectrogram()
             self.generate_transcript()
 
-    def audio_callback(self, indata, frames, time, status):
-        """ذخیره داده‌های صوتی ورودی."""
+    def audio_callback(self, indata, frames, time, status):        
         if self.recording and not self.paused:
             if self.audio_data.size == 0:
                 self.audio_data = indata[:, 0]
             else:
                 self.audio_data = np.concatenate((self.audio_data, indata[:, 0]))
-            volume = np.linalg.norm(indata)  # محاسبه بلندی صدا
+            volume = np.linalg.norm(indata)  
             self.progress_bar["value"] = min(volume * 100, 100)
 
-    def pause_recording(self):
-        """توقف یا ادامه ضبط."""
+    def pause_recording(self):        
         if self.recording and not self.paused:
             self.paused = True
             self.stream.stop()
@@ -295,8 +275,7 @@ class AudioRecorderApp:
             self.stream.start()
             self.pause_button.config(text="Pause")
 
-    def update_timer(self):
-        """بروزرسانی تایمر."""
+    def update_timer(self):        
         if self.recording and not self.paused:
             self.elapsed_time = time.time() - self.start_time
             minutes, seconds = divmod(int(self.elapsed_time), 60)
@@ -304,13 +283,11 @@ class AudioRecorderApp:
         if self.recording:
             self.root.after(500, self.update_timer)
 
-    def update_progress_bar(self):
-        """بروزرسانی نوار پیشرفت."""
+    def update_progress_bar(self):        
         if self.recording:
             self.root.after(100, self.update_progress_bar)
 
-    def on_closing(self):
-        """بستن برنامه."""
+    def on_closing(self):        
         if self.recording:
             self.stream.stop()
             self.stream.close()
